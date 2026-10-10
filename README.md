@@ -1,1 +1,1 @@
-# Jogo_PIF
+O player joga como uma nave e que está passando pelo cinturão de asteroides em alta velocidade. Ele possui um canhão com laser para destruir os asteroides no caminho entretanto, a munição de lasers é finita e precisa coletar mais energia pros lasers no caminho e se a nave bater em um asteroide ele perde uma vida e perde velocidade. O intuito do game é conseguir se manter o mais tempo possível em alta velocidade e conseguindo destruir o máximo de asteroides no caminho assim gerando uma pontuação recorde
