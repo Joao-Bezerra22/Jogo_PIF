@@ -1,0 +1,25 @@
+#include "raylib.h"
+#include "cenario.h"
+
+void iniciarEstrelas(Estrela estrelas[]) {
+   for(int i = 0; i<NUM_ESTRELAS; i++){
+        estrelas[i].x = GetRandomValue(0, GetScreenWidth());
+        estrelas[i].y = GetRandomValue(0, GetScreenHeight());
+    }
+}
+
+void atualizarEstrelas(Estrela estrelas[]) {
+    for(int i = 0; i<NUM_ESTRELAS; i++){
+                estrelas[i].y = estrelas[i].y + 1;
+                if(estrelas[i].y > GetScreenHeight()){
+                    estrelas[i].y = 0;
+                    estrelas[i].x = GetRandomValue(0, GetScreenWidth());
+                }
+    }
+}
+
+void desenharEstrelas(Estrela estrelas[]) {
+    for(int i = 0; i<NUM_ESTRELAS; i++){
+        DrawCircle(estrelas[i].x,estrelas[i].y, 1, WHITE);
+    }
+}

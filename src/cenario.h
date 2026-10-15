@@ -1,0 +1,15 @@
+#ifndef CENARIO_H
+#define CENARIO_H
+
+#define NUM_ESTRELAS 100
+
+typedef struct {
+    int x;
+    int y;
+} Estrela;
+
+void iniciarEstrelas(Estrela estrelas[]);
+void atualizarEstrelas(Estrela estrelas[]);
+void desenharEstrelas(Estrela estrelas[]);
+
+#endif
