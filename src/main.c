@@ -21,7 +21,12 @@ int main(void) {
         BeginDrawing();
             ClearBackground(BLACK);
             for(int i = 0; i<NUM_ESTRELAS; i++){
+                estrelas[i].y = estrelas[i].y + 1;
                 DrawCircle(estrelas[i].x,estrelas[i].y, 1, WHITE);
+                if(estrelas[i].y > GetScreenHeight()){
+                    estrelas[i].y = 0;
+                    estrelas[i].x = GetRandomValue(0, GetScreenWidth());
+                }
             }
         EndDrawing();
     }
