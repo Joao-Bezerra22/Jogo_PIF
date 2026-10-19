@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "cenario.h"
+#include "nave.h"
 
 typedef enum {
     TELA_INICIAL,
@@ -17,8 +18,14 @@ int main(void) {
 
     Rectangle botao = { (GetScreenWidth() - 200) / 2, 250, 200, 60 };
 
+    Nave nave;
+    iniciarNave(&nave);
+
     while (!WindowShouldClose()) {
         atualizarEstrelas(estrelas);
+        if(estado == JOGANDO){
+            atualizarNave(&nave);
+        }
 
         if (estado == TELA_INICIAL) {
         if (CheckCollisionPointRec(GetMousePosition(), botao) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
@@ -31,7 +38,6 @@ int main(void) {
             desenharEstrelas(estrelas);
 
             if (estado == TELA_INICIAL) {
-            DrawText("Space Traffic",215,130,50, WHITE);
 
             int larguraTitulo = MeasureText("Space Traffic", 50);
             DrawText("Space Traffic", (GetScreenWidth() - larguraTitulo) / 2, 130, 50, WHITE);
@@ -40,6 +46,10 @@ int main(void) {
 
             int larguraStart = MeasureText("START", 30);
             DrawText("START", botao.x + (botao.width - larguraStart) / 2, botao.y + 15, 30, WHITE);
+        }
+
+        if(estado == JOGANDO){
+            desenharNave(nave);
         }
         EndDrawing();
     }
