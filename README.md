@@ -1,8 +1,8 @@
-# 🚀 Space Traffic
+#  Space Traffic
 
 Jogo casual desenvolvido em **C** com a biblioteca **[Raylib](https://www.raylib.com/)**, como projeto da disciplina PIF na **CESAR School**.
 
-## 🎮 Sobre o jogo
+##  Sobre o jogo
 
 Você pilota uma nave que atravessa um cinturão de asteroides em alta velocidade. Para sobreviver, use o canhão de laser para destruir os asteroides que aparecem no caminho.
 
@@ -13,15 +13,15 @@ Mas cuidado:
 
 **Objetivo:** manter-se o maior tempo possível em alta velocidade e destruir o máximo de asteroides, alcançando uma pontuação recorde.
 
-## ✨ Mecânicas
+##  Mecânicas
 
 | Elemento | Descrição |
 |---|---|
-| 🛸 Nave | Controlada pelo jogador; possui vidas, munição e velocidade |
-| 🔫 Lasers | Disparados pela nave; consomem munição e destroem asteroides |
-| ☄️ Asteroides | Surgem no caminho da nave; a colisão tira vida e velocidade |
-| ⚡ Energia | Item coletável que recarrega a munição |
-| 🏆 Recorde | A melhor pontuação fica salva em arquivo |
+|  Nave | Controlada pelo jogador; possui vidas, munição e velocidade |
+|  Lasers | Disparados pela nave; consomem munição e destroem asteroides |
+|  Asteroides | Surgem no caminho da nave; a colisão tira vida e velocidade |
+|  Energia | Item coletável que recarrega a munição |
+|  Recorde | A melhor pontuação fica salva em arquivo |
 
 ## 🕹️ Controles
 
@@ -30,14 +30,14 @@ Mas cuidado:
 | "a" e "d" | Mover a nave |
 | "k" | Atirar |
 
-## 🛠️ Tecnologias
+##  Tecnologias
 
 - Linguagem **C**
 - **Raylib 5.5**
 - **GCC** (MinGW-w64 no Windows)
 - **Make** para compilação
 
-## 📦 Instalação
+##  Instalação
 
 ### Windows
 
@@ -63,7 +63,7 @@ sudo apt install build-essential libraylib-dev
 brew install raylib
 ```
 
-## ▶️ Como compilar e executar
+##  Como compilar e executar
 
 Clone o repositório:
 
@@ -95,7 +95,7 @@ clang src/*.c -o jogo -I$(brew --prefix)/include -L$(brew --prefix)/lib -lraylib
 
 > O suporte do Makefile para Linux e macOS está em andamento. Até lá, use os comandos acima.
 
-## 📁 Estrutura do projeto
+##  Estrutura do projeto
 
 ```
 SpaceTraffic/
@@ -107,7 +107,7 @@ SpaceTraffic/
 └── README.md
 ```
 
-## 📚 Conceitos de C aplicados
+##  Conceitos de C aplicados
 
 -  Estruturas (`struct`)
 -  Ponteiros
@@ -116,7 +116,7 @@ SpaceTraffic/
 -  Matrizes
 -  Escrita e leitura em arquivo (recorde)
 
-## 🎥 Vídeo
+## Vídeo
 
 _Link do vídeo de demonstração em breve._
 
