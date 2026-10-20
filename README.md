@@ -123,5 +123,5 @@ _Link do vídeo de demonstração em breve._
 ## 👥 Equipe
 
 - _Nome 1_ – https://github.com/Eduardo-Albuquerque1
-- _Nome 2_ – [@usuario](https://github.com/)
+- João Bezerra de Barros Neto – https://github.com/Joao-Bezerra22
 - _Nome 3_ – [@usuario](https://github.com/)
