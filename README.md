@@ -124,4 +124,4 @@ _Link do vídeo de demonstração em breve._
 
 - _Nome 1_ – https://github.com/Eduardo-Albuquerque1
 - João Bezerra de Barros Neto – https://github.com/Joao-Bezerra22
-- _Nome 3_ – [@usuario](https://github.com/)
+- Luiz Eduardo da Silva Moreira – https://github.com/lesm-fut
