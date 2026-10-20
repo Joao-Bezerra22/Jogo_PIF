@@ -11,7 +11,7 @@ typedef enum AsteroideTipo {
 
 #define ASTEROIDE_ROTACAO_VELOCIDADE_MIN 5
 #define ASTEROIDE_ROTACAO_VELOCIDADE_MAX 240
-
+#define MAX_ASTEROIDES 20
 typedef struct asteroide {
     bool ativo;
     Vector2 posicao;
@@ -23,5 +23,6 @@ typedef struct asteroide {
 
 Asteroide criarAsteroide(AsteroideTipo tipo, Vector2 posicao, Vector2 velocidade);
 void AsteroidAtualizar(Asteroide *asteroide, float FrameTime);
-
+void desenharAsteroide(Asteroide asteroide[], int quantidade);
+void iniciarAsteroides(Asteroide asteroides[], int quantidade);
 #endif

@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include "cenario.h"
 #include "nave.h"
-
+#include "asteroides.h"
 typedef enum {
     TELA_INICIAL,
     JOGANDO
@@ -21,17 +21,39 @@ int main(void) {
     Nave nave;
     iniciarNave(&nave);
 
-    while (!WindowShouldClose()) {
-        atualizarEstrelas(estrelas);
-        if(estado == JOGANDO){
-            atualizarNave(&nave);
-        }
+    Asteroide asteroides[MAX_ASTEROIDES] = {0};
+    float tempoContagem = 3.0f;
+    float tempoUltimoSpawn = 0.0f;
 
+    while (!WindowShouldClose()) {
+        float dt = GetFrameTime();
+        atualizarEstrelas(estrelas);
         if (estado == TELA_INICIAL) {
-        if (CheckCollisionPointRec(GetMousePosition(), botao) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-        estado = JOGANDO;
-    }
-}
+            if (CheckCollisionPointRec(GetMousePosition(), botao) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                estado = JOGANDO;
+            }
+        } 
+        else if (estado == JOGANDO) {
+            atualizarNave(&nave);
+
+            if (tempoContagem > 0) {
+                tempoContagem -= dt;
+            } else {
+                tempoUltimoSpawn += dt;
+                
+                if (tempoUltimoSpawn > 0.8f) { 
+                    iniciarAsteroides(asteroides, MAX_ASTEROIDES);
+                    tempoUltimoSpawn = 0.0f;
+                }
+
+                for (int i = 0; i < MAX_ASTEROIDES; i++) {
+                    AsteroidAtualizar(&asteroides[i], dt);
+                    if (asteroides[i].posicao.y > GetScreenHeight() + 100) {
+                        asteroides[i].ativo = false;
+                    }
+                }
+            }
+        }
 
         BeginDrawing();
             ClearBackground(BLACK);
@@ -50,6 +72,15 @@ int main(void) {
 
         if(estado == JOGANDO){
             desenharNave(nave);
+
+            if (tempoContagem > 0) {
+                int numero = (int)(tempoContagem + 0.9f); 
+                const char* textoTempo = TextFormat("%d", numero);
+                int larguraTexto = MeasureText(textoTempo, 80);
+                DrawText(textoTempo, (GetScreenWidth() - larguraTexto) / 2, GetScreenHeight() / 2 - 40, 80, RED);
+            } else {
+                desenharAsteroide(asteroides, MAX_ASTEROIDES);
+            }
         }
         EndDrawing();
     }
