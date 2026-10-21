@@ -23,14 +23,14 @@ void AsteroidAtualizar(Asteroide *asteroide, float FrameTime)
     asteroide->rotacao += asteroide->velocidaderotacao * FrameTime;
 }
 
-void iniciarAsteroides(Asteroide asteroides[], int qtd) {
+void iniciarAsteroides(Asteroide asteroides[], int qtd, float velocidadeExtra) {
     for (int i = 0; i < qtd; i++) {
         if (!asteroides[i].ativo) {
             AsteroideTipo tipo = GetRandomValue(1, 3);
             
             Vector2 pos = { (float)GetRandomValue(0, GetScreenWidth()), -50.0f };
 
-            Vector2 vel = { 0.0f, (float)GetRandomValue(100, 300) }; 
+            Vector2 vel = { 0.0f, (float)GetRandomValue(100, 300) + velocidadeExtra };
             
             asteroides[i] = criarAsteroide(tipo, pos, vel);
             break;

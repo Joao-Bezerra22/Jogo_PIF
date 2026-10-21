@@ -9,7 +9,7 @@ typedef struct {
 } Estrela;
 
 void iniciarEstrelas(Estrela estrelas[]);
-void atualizarEstrelas(Estrela estrelas[]);
+void atualizarEstrelas(Estrela estrelas[], float velocidadeExtra);
 void desenharEstrelas(Estrela estrelas[]);
 
 #endif

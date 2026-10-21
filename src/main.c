@@ -1,10 +1,12 @@
 #include "raylib.h"
+#include <raymath.h>
 #include "cenario.h"
 #include "nave.h"
 #include "asteroides.h"
 typedef enum {
     TELA_INICIAL,
-    JOGANDO
+    JOGANDO,
+    GAMEOVER
 } EstadoJogo;
 
 int main(void) {
@@ -25,9 +27,27 @@ int main(void) {
     float tempoContagem = 3.0f;
     float tempoUltimoSpawn = 0.0f;
 
+    float velocidadeKMH = 100.0f;
+    float velocidadeMaxKMH = 350.0f;     
+    float taxaAceleracao = 15.0f;        
+    float velocidadeExtraAsteroides = 0.0f;
+
+    int lapAtual = 1;
+    int lapMax = 3;
+
+    float tempoParaLap = 20.0f;
+    bool linhaLapAtiva = false;
+    float posicaoLinhaLapY = -10.0f;
+
+    float spawnRateAtual = 0.8f;
+    float spawnRateMinimoLap1 = 0.4f;
+    float spawnRateMinimoLap2 = 0.25f;
+    float spawnRateMinimoLap3 = 0.1f;
+    float limiteMinimoAtual = spawnRateMinimoLap1;
+
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
-        atualizarEstrelas(estrelas);
+        atualizarEstrelas(estrelas, velocidadeExtraAsteroides);
         if (estado == TELA_INICIAL) {
             if (CheckCollisionPointRec(GetMousePosition(), botao) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
                 estado = JOGANDO;
@@ -39,10 +59,24 @@ int main(void) {
             if (tempoContagem > 0) {
                 tempoContagem -= dt;
             } else {
+                if (velocidadeKMH < velocidadeMaxKMH){
+                    velocidadeKMH += taxaAceleracao*dt;
+                    if (velocidadeKMH > velocidadeMaxKMH) velocidadeKMH = velocidadeMaxKMH;
+                }
+                
+                velocidadeExtraAsteroides = (velocidadeKMH - 100.0f) * 1.5f;
+
+                if (spawnRateAtual > limiteMinimoAtual) {
+                    spawnRateAtual -= 0.25f * dt; 
+                }
+                if (spawnRateAtual < limiteMinimoAtual) {
+                    spawnRateAtual = limiteMinimoAtual;
+                }
+
                 tempoUltimoSpawn += dt;
                 
-                if (tempoUltimoSpawn > 0.8f) { 
-                    iniciarAsteroides(asteroides, MAX_ASTEROIDES);
+                if (tempoUltimoSpawn > spawnRateAtual) { 
+                    iniciarAsteroides(asteroides, MAX_ASTEROIDES, velocidadeExtraAsteroides);
                     tempoUltimoSpawn = 0.0f;
                 }
 
@@ -50,6 +84,42 @@ int main(void) {
                     AsteroidAtualizar(&asteroides[i], dt);
                     if (asteroides[i].posicao.y > GetScreenHeight() + 100) {
                         asteroides[i].ativo = false;
+                    }
+
+                    if (asteroides[i].ativo) {
+                        Vector2 pontoMaisProximo;
+                        pontoMaisProximo.x = Clamp(asteroides[i].posicao.x, nave.posicao.x, nave.posicao.x + nave.largura);
+                        pontoMaisProximo.y = Clamp(asteroides[i].posicao.y, nave.posicao.y, nave.posicao.y + nave.altura);
+                        
+                        float distancia = Vector2Distance(asteroides[i].posicao, pontoMaisProximo);
+                        if (distancia < 20.0f) {
+                            spawnRateAtual += spawnRateAtual / 3.0f;
+                            asteroides[i].ativo = false;
+                        }
+                    }
+                }
+                if (!linhaLapAtiva && lapAtual < lapMax) {
+                    tempoParaLap -= dt;
+                    if (tempoParaLap <= 0) {
+                        linhaLapAtiva = true;
+                        posicaoLinhaLapY = -10.0f;
+                    }
+                }
+
+                if (linhaLapAtiva) {
+                    posicaoLinhaLapY += (100.0f + velocidadeExtraAsteroides) * dt;
+                    if (posicaoLinhaLapY >= nave.posicao.y && posicaoLinhaLapY <= nave.posicao.y + nave.altura) {
+                        lapAtual++;
+                        linhaLapAtiva = false;
+                        tempoParaLap = 20.0f;
+
+                        if (lapAtual == 2) limiteMinimoAtual = spawnRateMinimoLap2;
+                        if (lapAtual == 3) limiteMinimoAtual = spawnRateMinimoLap3;
+                    }
+                    
+                    if (posicaoLinhaLapY > GetScreenHeight() + 50) {
+                        linhaLapAtiva = false;
+                        tempoParaLap = 20.0f;
                     }
                 }
             }
@@ -80,6 +150,16 @@ int main(void) {
                 DrawText(textoTempo, (GetScreenWidth() - larguraTexto) / 2, GetScreenHeight() / 2 - 40, 80, RED);
             } else {
                 desenharAsteroide(asteroides, MAX_ASTEROIDES);
+
+                if(linhaLapAtiva){
+                    DrawLine(0, (int)posicaoLinhaLapY, GetScreenWidth(), (int)posicaoLinhaLapY, YELLOW);
+                }
+
+                const char* textoVelocidade = TextFormat("KM/H %03i", (int)velocidadeKMH);
+                DrawText(textoVelocidade, 10, 10, 20, LIGHTGRAY);
+
+                const char* textoLap = TextFormat("LAP %i/%i", lapAtual, lapMax);
+                DrawText(textoLap, GetScreenWidth() - 100, 10, 20, LIGHTGRAY);
             }
         }
         EndDrawing();
