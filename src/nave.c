@@ -1,4 +1,17 @@
 #include "nave.h"
+#define NAVE_LINHAS 8
+#define NAVE_COLUNAS 8
+
+int desenhoNave[NAVE_LINHAS][NAVE_COLUNAS] = {
+    {0,0,0,1,1,0,0,0},
+    {0,0,0,1,1,0,0,0},
+    {0,0,1,1,1,1,0,0},
+    {0,0,1,1,1,1,0,0},
+    {0,1,1,1,1,1,1,0},
+    {1,1,1,1,1,1,1,1},
+    {1,1,0,1,1,0,1,1},
+    {1,0,0,0,0,0,0,1},
+};
 
 void iniciarNave(Nave *nave) {
     nave->largura = 40;
@@ -9,7 +22,18 @@ void iniciarNave(Nave *nave) {
 }
 
 void desenharNave(Nave nave) {
-    DrawRectangle(nave.posicao.x, nave.posicao.y, nave.largura, nave.altura, WHITE);
+   int tamanho = nave.largura / NAVE_COLUNAS;
+
+    for (int linha = 0; linha < NAVE_LINHAS; linha++) {
+        for (int coluna = 0; coluna < NAVE_COLUNAS; coluna++) {
+            if (desenhoNave[linha][coluna] == 1) {
+                DrawRectangle(
+                    nave.posicao.x + coluna * tamanho,
+                    nave.posicao.y + linha * tamanho,
+                    tamanho, tamanho, WHITE);
+            }
+        }
+    }
 }
 
 void atualizarNave(Nave *nave) {
